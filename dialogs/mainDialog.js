@@ -107,7 +107,7 @@ class MainDialog extends ComponentDialog {
             }
 
             case 'Places_MakeCall': {
-                const transferCallText = `Please wait, while I am transferring your call to an agent with DialogId:${stepContext.activity.conversation.id}`;
+                const transferCallText = `Please wait, while I am transferring your call to an agent with DialogId:${stepContext.context.activity.conversation.id}`;
                 await stepContext.context.sendActivity(transferCallText, transferCallText, InputHints.IgnoringInput);
                 return await stepContext.endDialog();
                 break;
