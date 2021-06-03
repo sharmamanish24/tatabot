@@ -16,7 +16,8 @@ const restify = require('restify');
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
 const { BotFrameworkAdapter, ConversationState, InputHints, MemoryStorage, UserState } = require('botbuilder');
 const { AzureBlobTranscriptStore } = require("botbuilder-azure");
-const { BlobStorage } = require("botbuilder-azure");
+const { TranscriptLoggerMiddleware } = require("botbuilder-azure");
+
 
 const { FlightBookingRecognizer } = require('./dialogs/flightBookingRecognizer');
 
