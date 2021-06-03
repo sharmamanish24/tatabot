@@ -10,7 +10,7 @@
       "name": "BookFlight"
     },
     {
-      "name": "TransferCall"
+      "name": "Places.MakeCall"
     },
     {
       "name": "Cancel"
@@ -339,17 +339,17 @@
     },
     {
       "text": "Transfer my call to an executive",
-      "intent": "TransferCall",
+      "intent": "Places.MakeCall",
       "entities": []
     },
     {
       "text": "I want to talk to an executive",
-      "intent": "TransferCall",
+      "intent": "Places.MakeCall",
       "entities": []
     },
     {
       "text": "Transfer call",
-      "intent": "TransferCall",
+      "intent": "Places.MakeCall",
       "entities": []
     }
   ],
