@@ -101,7 +101,7 @@ class MainDialog extends ComponentDialog {
 
             case 'GetWeather': {
                 // We haven't implemented the GetWeatherDialog so we just display a TODO message.
-                const getWeatherMessageText = 'TODO: get weather flow here';
+                const getWeatherMessageText = 'TODO: WEATHER - get weather flow here';
                 await stepContext.context.sendActivity(getWeatherMessageText, getWeatherMessageText, InputHints.IgnoringInput);
                 break;
             }

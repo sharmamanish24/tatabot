@@ -338,12 +338,12 @@
       "entities": []
     },
     {
-      "text": "Transfer my call to a sales executive",
+      "text": "Transfer my call to an executive",
       "intent": "TransferCall",
       "entities": []
     },
     {
-      "text": "I want to talk to a sales executive",
+      "text": "I want to talk to an executive",
       "intent": "TransferCall",
       "entities": []
     },
