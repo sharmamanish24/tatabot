@@ -10,6 +10,9 @@
       "name": "BookFlight"
     },
     {
+      "name": "TransferCall"
+    },
+    {
       "name": "Cancel"
     },
     {
@@ -332,6 +335,21 @@
     {
       "text": "winter is coming",
       "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "Transfer my call to a sales executive",
+      "intent": "TransferCall",
+      "entities": []
+    },
+    {
+      "text": "I want to talk to a sales executive",
+      "intent": "TransferCall",
+      "entities": []
+    },
+    {
+      "text": "Transfer call",
+      "intent": "TransferCall",
       "entities": []
     }
   ],
