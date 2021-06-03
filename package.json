@@ -21,6 +21,7 @@
         "botbuilder-ai": "~4.11.1",
         "botbuilder-dialogs": "~4.11.1",
         "botbuilder-testing": "~4.11.1",
+        "botbuilder-azure": "~4.11.1",
         "dotenv": "^8.2.0",
         "moment-timezone": "^0.5.32",
         "restify": "~8.5.1"
