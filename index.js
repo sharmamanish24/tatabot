@@ -17,7 +17,7 @@ const restify = require('restify');
 const { BotFrameworkAdapter, ConversationState, InputHints, MemoryStorage, UserState } = require('botbuilder');
 const { AzureBlobTranscriptStore } = require('botbuilder-azure');
 const { TranscriptLoggerMiddleware } = require('botbuilder-core');
-
+const { BlobStorage } = require('botbuilder-azure');
 
 const { FlightBookingRecognizer } = require('./dialogs/flightBookingRecognizer');
 
