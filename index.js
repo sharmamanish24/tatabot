@@ -70,21 +70,27 @@ adapter.onTurnError = onTurnErrorHandler;
 // For local development, in-memory storage is used.
 // CAUTION: The Memory Storage used here is for local bot debugging only. When the bot
 // is restarted, anything stored in memory will be gone.
-const memoryStorage = new MemoryStorage();
+// const memoryStorage = new MemoryStorage();
+const memoryStorage = new BlobStorage({
+    containerName: process.env.BlobContainerName,
+    storageAccountOrConnectionString: process.env.BlobConnectionString
+});
+
+
 
 const conversationState = new ConversationState(memoryStorage);
 const userState = new UserState(memoryStorage);
 
 // The transcript store has methods for saving and retrieving bot conversation transcripts.
-let transcriptStore = new AzureBlobTranscriptStore({
-    containerName: process.env.BlobContainerName,
-    storageAccountOrConnectionString: process.env.BlobConnectionString
-});
+// let transcriptStore = new AzureBlobTranscriptStore({
+//     containerName: process.env.BlobContainerName,
+//     storageAccountOrConnectionString: process.env.BlobConnectionString
+// });
 
-// Create the middleware layer responsible for logging incoming and outgoing activities
-// into the transcript store.
-var transcriptMiddleware = new TranscriptLoggerMiddleware(transcriptStore);
-adapter.use(transcriptMiddleware);
+// // Create the middleware layer responsible for logging incoming and outgoing activities
+// // into the transcript store.
+// var transcriptMiddleware = new TranscriptLoggerMiddleware(transcriptStore);
+// adapter.use(transcriptMiddleware);
 
 // If configured, pass in the FlightBookingRecognizer.  (Defining it externally allows it to be mocked for tests)
 const { LuisAppId, LuisAPIKey, LuisAPIHostName } = process.env;
