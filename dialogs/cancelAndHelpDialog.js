@@ -4,6 +4,8 @@
 const { InputHints } = require('botbuilder');
 const { ComponentDialog, DialogTurnStatus } = require('botbuilder-dialogs');
 
+const { insertDataTataDb } = require('../utils/dbUtils');
+
 /**
  * This base class watches for common phrases like "help" and "cancel" and takes action on them
  * BEFORE they reach the normal bot logic.
@@ -22,18 +24,20 @@ class CancelAndHelpDialog extends ComponentDialog {
             const text = innerDc.context.activity.text.toLowerCase();
 
             switch (text) {
-            case 'help':
-            case '?': {
-                const helpMessageText = 'Show help here';
-                await innerDc.context.sendActivity(helpMessageText, helpMessageText, InputHints.ExpectingInput);
-                return { status: DialogTurnStatus.waiting };
-            }
-            case 'cancel':
-            case 'quit': {
-                const cancelMessageText = 'Cancelling...';
-                await innerDc.context.sendActivity(cancelMessageText, cancelMessageText, InputHints.IgnoringInput);
-                return await innerDc.cancelAllDialogs();
-            }
+                case 'help':
+                case '?': {
+                    const helpMessageText = 'Show help here';
+                    await innerDc.context.sendActivity(helpMessageText, helpMessageText, InputHints.ExpectingInput);
+                    insertDataTataDb("bot",helpMessageText);
+                    return { status: DialogTurnStatus.waiting };
+                }
+                case 'cancel':
+                case 'quit': {
+                    const cancelMessageText = 'Cancelling...';
+                    await innerDc.context.sendActivity(cancelMessageText, cancelMessageText, InputHints.IgnoringInput);
+                    insertDataTataDb("bot",cancelMessageText);
+                    return await innerDc.cancelAllDialogs();
+                }
             }
         }
     }
