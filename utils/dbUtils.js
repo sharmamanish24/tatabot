@@ -26,7 +26,13 @@ const sqlConfig = {
 
 (async () => {
   console.log('Trying to make connection to tata bot');
-  await sql.connect(sqlConfig);
+  try {
+    await sql.connect(sqlConfig);
+  }
+  catch (err) {
+    console.log('The error while connecting the DB is : ' + err);
+  }
+  
 })();
 
 const insertDataTataDb = async (muser, text) => {
