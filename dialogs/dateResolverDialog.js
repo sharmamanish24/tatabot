@@ -6,6 +6,8 @@ const { DateTimePrompt, WaterfallDialog } = require('botbuilder-dialogs');
 const { CancelAndHelpDialog } = require('./cancelAndHelpDialog');
 const { TimexProperty } = require('@microsoft/recognizers-text-data-types-timex-expression');
 
+const { insertDataTataDb } = require('../utils/dbUtils');
+
 const DATETIME_PROMPT = 'datetimePrompt';
 const WATERFALL_DIALOG = 'waterfallDialog';
 
@@ -32,6 +34,7 @@ class DateResolverDialog extends CancelAndHelpDialog {
 
         if (!timex) {
             // We were not given any date at all so prompt the user.
+            insertDataTataDb("bot", promptMessageText);
             return await stepContext.prompt(DATETIME_PROMPT,
                 {
                     prompt: promptMessage,
@@ -42,6 +45,7 @@ class DateResolverDialog extends CancelAndHelpDialog {
         const timexProperty = new TimexProperty(timex);
         if (!timexProperty.types.has('definite')) {
             // This is essentially a "reprompt" of the data we were given up front.
+            insertDataTataDb("bot", repromptMessageText);
             return await stepContext.prompt(DATETIME_PROMPT, { prompt: repromptMessage });
         }
         return await stepContext.next([{ timex: timex }]);

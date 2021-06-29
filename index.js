@@ -20,6 +20,7 @@ const { TranscriptLoggerMiddleware } = require('botbuilder-core');
 const { BlobStorage } = require('botbuilder-azure');
 const { CosmosDbPartitionedStorage } = require('botbuilder-azure');
 
+
 const { FlightBookingRecognizer } = require('./dialogs/flightBookingRecognizer');
 
 // This bot's main dialog.
@@ -109,7 +110,7 @@ const luisRecognizer = new FlightBookingRecognizer(luisConfig);
 // Create the main dialog.
 const bookingDialog = new BookingDialog(BOOKING_DIALOG);
 const dialog = new MainDialog(luisRecognizer, bookingDialog);
-const bot = new DialogAndWelcomeBot(conversationState, userState, dialog);
+const bot = new DialogAndWelcomeBot(conversationState, userState, dialog, memoryStorage);
 
 // Create HTTP server
 const server = restify.createServer();

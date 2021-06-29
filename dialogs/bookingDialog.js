@@ -7,6 +7,8 @@ const { ConfirmPrompt, TextPrompt, WaterfallDialog } = require('botbuilder-dialo
 const { CancelAndHelpDialog } = require('./cancelAndHelpDialog');
 const { DateResolverDialog } = require('./dateResolverDialog');
 
+const { insertDataTataDb } = require('../utils/dbUtils');
+
 const CONFIRM_PROMPT = 'confirmPrompt';
 const DATE_RESOLVER_DIALOG = 'dateResolverDialog';
 const TEXT_PROMPT = 'textPrompt';
@@ -39,6 +41,7 @@ class BookingDialog extends CancelAndHelpDialog {
         if (!bookingDetails.destination) {
             const messageText = 'To what city would you like to travel?';
             const msg = MessageFactory.text(messageText, messageText, InputHints.ExpectingInput);
+            insertDataTataDb("bot", messageText);
             return await stepContext.prompt(TEXT_PROMPT, { prompt: msg });
         }
         return await stepContext.next(bookingDetails.destination);
@@ -55,6 +58,7 @@ class BookingDialog extends CancelAndHelpDialog {
         if (!bookingDetails.origin) {
             const messageText = 'From what city will you be travelling?';
             const msg = MessageFactory.text(messageText, 'From what city will you be travelling?', InputHints.ExpectingInput);
+            insertDataTataDb("bot", messageText);
             return await stepContext.prompt(TEXT_PROMPT, { prompt: msg });
         }
         return await stepContext.next(bookingDetails.origin);
@@ -83,9 +87,10 @@ class BookingDialog extends CancelAndHelpDialog {
 
         // Capture the results of the previous step
         bookingDetails.travelDate = stepContext.result;
-        const messageText = `Please confirm, I have you traveling to: ${ bookingDetails.destination } from: ${ bookingDetails.origin } on: ${ bookingDetails.travelDate }. Is this correct?`;
+        const messageText = `Please confirm, I have you traveling to: ${bookingDetails.destination} from: ${bookingDetails.origin} on: ${bookingDetails.travelDate}. Is this correct?`;
         const msg = MessageFactory.text(messageText, messageText, InputHints.ExpectingInput);
 
+        insertDataTataDb("bot", messageText);
         // Offer a YES/NO prompt.
         return await stepContext.prompt(CONFIRM_PROMPT, { prompt: msg });
     }
@@ -96,6 +101,7 @@ class BookingDialog extends CancelAndHelpDialog {
     async finalStep(stepContext) {
         if (stepContext.result === true) {
             const bookingDetails = stepContext.options;
+            //insertDataTataDb("bot", bookingDetails);
             return await stepContext.endDialog(bookingDetails);
         }
         return await stepContext.endDialog();

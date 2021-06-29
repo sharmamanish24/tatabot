@@ -7,6 +7,8 @@ const { LuisRecognizer } = require('botbuilder-ai');
 const { ComponentDialog, DialogSet, DialogTurnStatus, TextPrompt, WaterfallDialog } = require('botbuilder-dialogs');
 const moment = require('moment-timezone');
 
+const { insertDataTataDb, uuidV4 } = require('../utils/dbUtils');
+
 const MAIN_WATERFALL_DIALOG = 'mainWaterfallDialog';
 
 class MainDialog extends ComponentDialog {
@@ -57,6 +59,7 @@ class MainDialog extends ComponentDialog {
         if (!this.luisRecognizer.isConfigured) {
             const messageText = 'NOTE: LUIS is not configured. To enable all capabilities, add `LuisAppId`, `LuisAPIKey` and `LuisAPIHostName` to the .env file.';
             await stepContext.context.sendActivity(messageText, null, InputHints.IgnoringInput);
+            insertDataTataDb("bot",messageText);
             return await stepContext.next();
         }
 
@@ -103,12 +106,14 @@ class MainDialog extends ComponentDialog {
                 // We haven't implemented the GetWeatherDialog so we just display a TODO message.
                 const getWeatherMessageText = 'TODO: WEATHER - get weather flow here';
                 await stepContext.context.sendActivity(getWeatherMessageText, getWeatherMessageText, InputHints.IgnoringInput);
+                insertDataTataDb("bot",getWeatherMessageText);
                 break;
             }
 
             case 'Places_MakeCall': {
-                const transferCallText = `Please wait, while I am transferring your call to an agent with DialogId:${stepContext.context.activity.conversation.id}`;
+                const transferCallText = `Please wait, while I am transferring your call to an agent with DialogId:${uuidV4}`;
                 await stepContext.context.sendActivity(transferCallText, transferCallText, InputHints.IgnoringInput);
+                insertDataTataDb("bot",transferCallText);
                 return await stepContext.endDialog();
                 break;
             }
@@ -117,6 +122,7 @@ class MainDialog extends ComponentDialog {
                 // Catch all for unhandled intents
                 const didntUnderstandMessageText = `Sorry, I didn't get that. Please try asking in a different way (intent was ${LuisRecognizer.topIntent(luisResult)})`;
                 await stepContext.context.sendActivity(didntUnderstandMessageText, didntUnderstandMessageText, InputHints.IgnoringInput);
+                insertDataTataDb("bot",didntUnderstandMessageText);
             }
         }
 
@@ -141,6 +147,7 @@ class MainDialog extends ComponentDialog {
         if (unsupportedCities.length) {
             const messageText = `Sorry but the following airports are not supported: ${unsupportedCities.join(', ')}`;
             await context.sendActivity(messageText, messageText, InputHints.IgnoringInput);
+            insertDataTataDb("bot",messageText);
         }
     }
 
@@ -161,8 +168,10 @@ class MainDialog extends ComponentDialog {
             const travelDateMsg = timeProperty.toNaturalLanguage(new Date(Date.now()));
             const msg = `I have you booked to ${result.destination} from ${result.origin} on ${travelDateMsg}.`;
             await stepContext.context.sendActivity(msg, msg, InputHints.IgnoringInput);
+            insertDataTataDb("bot",msg);
         }
 
+        insertDataTataDb("bot",'What else can I do for you?');
         // Restart the main dialog with a different message the second time around
         return await stepContext.replaceDialog(this.initialDialogId, { restartMsg: 'What else can I do for you?' });
     }

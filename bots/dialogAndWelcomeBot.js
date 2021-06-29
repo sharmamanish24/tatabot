@@ -6,8 +6,8 @@ const { DialogBot } = require('./dialogBot');
 const WelcomeCard = require('./resources/welcomeCard.json');
 
 class DialogAndWelcomeBot extends DialogBot {
-    constructor(conversationState, userState, dialog) {
-        super(conversationState, userState, dialog);
+    constructor(conversationState, userState, dialog, memoryStorage) {
+        super(conversationState, userState, dialog, memoryStorage);
 
         this.onMembersAdded(async (context, next) => {
             const membersAdded = context.activity.membersAdded;

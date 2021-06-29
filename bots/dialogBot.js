@@ -3,6 +3,8 @@
 
 const { ActivityHandler } = require('botbuilder');
 
+const {insertDataTataDb} = require('../utils/dbUtils');
+
 class DialogBot extends ActivityHandler {
     /**
      *
@@ -10,7 +12,7 @@ class DialogBot extends ActivityHandler {
      * @param {UserState} userState
      * @param {Dialog} dialog
      */
-    constructor(conversationState, userState, dialog) {
+    constructor(conversationState, userState, dialog, memoryStorage) {
         super();
         if (!conversationState) throw new Error('[DialogBot]: Missing parameter. conversationState is required');
         if (!userState) throw new Error('[DialogBot]: Missing parameter. userState is required');
@@ -19,11 +21,13 @@ class DialogBot extends ActivityHandler {
         this.conversationState = conversationState;
         this.userState = userState;
         this.dialog = dialog;
+        this.memoryStorage = memoryStorage;
         this.dialogState = this.conversationState.createProperty('DialogState');
 
         this.onMessage(async (context, next) => {
-            console.log('Running dialog with Message Activity.');
-
+            //console.log('Running dialog with Message Activity - 1 : ' + context.activity.text);
+            var mtext = context.activity.text;
+            insertDataTataDb("human",mtext);
             // Run the Dialog with the new message Activity.
             await this.dialog.run(context, this.dialogState);
 
@@ -32,6 +36,7 @@ class DialogBot extends ActivityHandler {
         });
     }
 
+
     /**
      * Override the ActivityHandler.run() method to save state changes after the bot logic completes.
      */
@@ -39,8 +44,8 @@ class DialogBot extends ActivityHandler {
         await super.run(context);
 
         // Save any state changes. The load happened during the execution of the Dialog.
-        await this.conversationState.saveChanges(context, true);
-        await this.userState.saveChanges(context, true);
+        await this.conversationState.saveChanges(context, false);
+        await this.userState.saveChanges(context, false);
     }
 }
 
