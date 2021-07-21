@@ -37,6 +37,7 @@ const sqlConfig = {
 
 const insertDataTataDb = async (muser, text) => {
 
+  return;
   var now = new Date();
   const request = new sql.Request();
   request.input('mid', sql.UniqueIdentifier, muuid.uuidV4);
