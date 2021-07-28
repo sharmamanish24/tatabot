@@ -14,25 +14,24 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: Set up Node.js version
-      uses: actions/setup-node@v1
-      with:
-        node-version: '15.x'
+      - name: Set up Node.js version
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14.x'
 
-#    - name: npm install, build, and test
-#    - name: npm install, build
-#      run: |
-#        npm install
-#        npm run build --if-present
-#npm run test --if-present
+      - name: npm install, build, and test
+        run: |
+          npm install
+          npm run build --if-present
+          npm run test --if-present
 
-    - name: Upload artifact for deployment job
-      uses: actions/upload-artifact@v2
-      with:
-        name: node-app
-        path: .
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v2
+        with:
+          name: node-app
+          path: .
 
   deploy:
     runs-on: windows-latest
@@ -53,5 +52,5 @@ jobs:
       with:
         app-name: 'flightbotapp'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_88bc8ebd6e4040169bb39ef860ff14a3 }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_78067d69d7e847578c42316a62f17920 }}
         package: .
