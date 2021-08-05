@@ -18,7 +18,7 @@ const { BotFrameworkAdapter, ConversationState, InputHints, MemoryStorage, UserS
 const { AzureBlobTranscriptStore } = require('botbuilder-azure');
 const { TranscriptLoggerMiddleware } = require('botbuilder-core');
 const { BlobStorage } = require('botbuilder-azure');
-const { CosmosDbPartitionedStorage } = require('botbuilder-azure');
+//const { CosmosDbPartitionedStorage } = require('botbuilder-azure');
 
 
 const { FlightBookingRecognizer } = require('./dialogs/flightBookingRecognizer');
@@ -72,19 +72,19 @@ adapter.onTurnError = onTurnErrorHandler;
 // For local development, in-memory storage is used.
 // CAUTION: The Memory Storage used here is for local bot debugging only. When the bot
 // is restarted, anything stored in memory will be gone.
-// const memoryStorage = new MemoryStorage();
+const memoryStorage = new MemoryStorage();
 // const memoryStorage = new BlobStorage({
 //     containerName: process.env.BlobContainerName,
 //     storageAccountOrConnectionString: process.env.BlobConnectionString
 // });
 
-const memoryStorage = new CosmosDbPartitionedStorage({
-    cosmosDbEndpoint: process.env.CosmosDbEndpoint,
-    authKey: process.env.CosmosDbAuthKey,
-    databaseId: process.env.CosmosDbDatabaseId,
-    containerId: process.env.CosmosDbContainerId,
-    compatibilityMode: false
-});
+// const memoryStorage = new CosmosDbPartitionedStorage({
+//     cosmosDbEndpoint: process.env.CosmosDbEndpoint,
+//     authKey: process.env.CosmosDbAuthKey,
+//     databaseId: process.env.CosmosDbDatabaseId,
+//     containerId: process.env.CosmosDbContainerId,
+//     compatibilityMode: false
+// });
 
 
 const conversationState = new ConversationState(memoryStorage);
